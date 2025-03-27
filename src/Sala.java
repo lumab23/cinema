@@ -1,13 +1,22 @@
 public class Sala {
-
     private int numero;
-    private boolean assentos[][];
-    private int assentosDisponiveis;
-    
-    public Sala(int numero, boolean[][] assentos, int assentosDisponiveis) {
+    private boolean[][] assentos;
+
+    public Sala(int numero, boolean[][] assentos) {
         this.numero = numero;
         this.assentos = assentos;
-        this.assentosDisponiveis = assentosDisponiveis;
+    }
+
+    public int getAssentosDisponiveis() {
+        return 0;
+    }
+
+    public boolean isAssentoDisponivel(int fileira, int coluna) {
+        return assentos[fileira][coluna];
+    }
+
+    public boolean reservarAssento(int fileira, int coluna) {
+        return true;
     }
 
     public int getNumero() {
@@ -26,31 +35,5 @@ public class Sala {
         this.assentos = assentos;
     }
 
-    public int getAssentosDisponiveis() {
-        int count = 0;
-        for (boolean[] linha : assentos) {
-            for (boolean assento : linha) {
-                if (!assento) count++; 
-            }
-        }
-
-        return count;
-    }
-
-
-    // método para imprimir a matriz de assentos
-    public void imprimirAssentos() {
-        for (boolean[] linha : assentos) {
-            for (boolean assento : linha) {
-                System.out.print(assento ? "O " : "X ");
-            }
-            System.out.println();
-        }
-    }
-
-    public void setAssentosDisponiveis(int assentosDisponiveis) {
-        this.assentosDisponiveis = assentosDisponiveis;
-    }
-
-
+    
 }

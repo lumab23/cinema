@@ -1,19 +1,16 @@
 public class Filme {
-
     private String nome;
     private String genero;
-    private int duracaoMin;
     private String sinopse;
     private String diretor;
-    private int classificacao;
+    private int duracaoMin;
 
-    public Filme(String nome, String genero, int duracaoMin, String sinopse, String diretor, int classificacao) {
+    public Filme(String nome, String genero, String sinopse, String diretor, int duracaoMin) {
         this.nome = nome;
         this.genero = genero;
-        this.duracaoMin = duracaoMin;
         this.sinopse = sinopse;
         this.diretor = diretor;
-        this.classificacao = classificacao;
+        this.duracaoMin = duracaoMin;
     }
 
     public String getNome() {
@@ -32,14 +29,6 @@ public class Filme {
         this.genero = genero;
     }
 
-    public int getDuracaoMin() {
-        return duracaoMin;
-    }
-
-    public void setDuracaoMin(int duracaoMin) {
-        this.duracaoMin = duracaoMin;
-    }
-
     public String getSinopse() {
         return sinopse;
     }
@@ -56,17 +45,15 @@ public class Filme {
         this.diretor = diretor;
     }
 
-    public int getClassificacao() {
-        return classificacao;
+    public int getDuracaoMin() {
+        return duracaoMin;
     }
 
-    public void setClassificacao(int classificacao) {
-        this.classificacao = classificacao;
+    public void setDuracaoMin(int duracaoMin) {
+        this.duracaoMin = duracaoMin;
     }
 
     
+
     
-
-
-
 }

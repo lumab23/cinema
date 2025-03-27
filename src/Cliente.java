@@ -1,5 +1,4 @@
 public class Cliente {
-
     private String nome;
     private String cpf;
     private String email;
@@ -43,6 +42,8 @@ public class Cliente {
     public void setIdade(int idade) {
         this.idade = idade;
     }
+
     
 
+    
 }
