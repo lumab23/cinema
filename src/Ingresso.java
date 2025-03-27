@@ -4,8 +4,6 @@ public class Ingresso {
     private TipoIngresso tipo;
     private String numeroCadeira;
 
-    
-
     public Ingresso(float preco, Sessao sessao, TipoIngresso tipo, String numeroCadeira) {
         this.preco = preco;
         this.sessao = sessao;
@@ -14,8 +12,14 @@ public class Ingresso {
     }
 
     public float calcularPreco() {
-        // Implementação (ex: baseado no tipo e sessão)
-        return preco;
+        switch (tipo) {
+            case VIP:
+                return preco * 1.5f; // 50% a mais
+            case MEIA: 
+                return preco * 0.5f; // 50% de desconto
+            default:
+                return preco; // preço normal
+        }
     }
 
     public float getPreco() {
@@ -49,6 +53,4 @@ public class Ingresso {
     public void setNumeroCadeira(String numeroCadeira) {
         this.numeroCadeira = numeroCadeira;
     }
-
-    
 }

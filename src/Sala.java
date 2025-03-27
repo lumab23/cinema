@@ -8,7 +8,13 @@ public class Sala {
     }
 
     public int getAssentosDisponiveis() {
-        return 0;
+        int disp = 0;
+        for (boolean[] fileira : assentos) {
+            for (boolean assento : fileira) {
+                if (assento) disp++;
+            }
+        }
+        return disp;
     }
 
     public boolean isAssentoDisponivel(int fileira, int coluna) {
@@ -16,7 +22,11 @@ public class Sala {
     }
 
     public boolean reservarAssento(int fileira, int coluna) {
-        return true;
+        if (assentos[fileira][coluna]) {
+            assentos[fileira][coluna] = false; // assento ocupado
+            return true;
+        }
+        return false;
     }
 
     public int getNumero() {
@@ -34,6 +44,4 @@ public class Sala {
     public void setAssentos(boolean[][] assentos) {
         this.assentos = assentos;
     }
-
-    
 }

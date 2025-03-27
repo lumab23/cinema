@@ -1,10 +1,14 @@
 public class GerenteDB {
 
-    private boolean salvarFilme(Filme f) {
+    public boolean salvarFilme(Filme f) {
         return true;
     }
 
-    private boolean salvarVendar(Venda v) {
+    public boolean salvarVenda(Venda v) {
+        return true;
+    }
+
+    public boolean removerVenda(Venda v) {
         return true;
     }
 

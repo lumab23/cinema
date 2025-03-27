@@ -7,7 +7,6 @@ public class Sessao {
     private int ingressosVendidos;
     private int capacidadeMaxima;
 
-
     public Sessao(Sala sala, Filme filme, LocalDateTime horario, int ingressosVendidos, int capacidadeMaxima) {
         this.sala = sala;
         this.filme = filme;
@@ -21,7 +20,11 @@ public class Sessao {
     }
 
     public boolean reservarIngressos(int qtd) {
-        return true;
+        if (getIngressosDisponiveis() >= qtd) {
+            ingressosVendidos += qtd;
+            return true;
+        }
+        return false;
     }
 
     public Sala getSala() {
@@ -63,6 +66,4 @@ public class Sessao {
     public void setCapacidadeMaxima(int capacidadeMaxima) {
         this.capacidadeMaxima = capacidadeMaxima;
     }
-
-    
 }
