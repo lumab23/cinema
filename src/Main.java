@@ -1,9 +1,10 @@
-import java.util.Scanner;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class Cinema {
+public class Main {
     private static List<Filme> filmes = new ArrayList<>();
     private static List<Sessao> sessoes = new ArrayList<>();
     private static ControladorFilmes controladorFilmes = new ControladorFilmes();
@@ -102,48 +103,61 @@ public class Cinema {
     }
 
     private static void criarSessao() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    
         if (filmes.isEmpty()) {
             System.out.println("Nenhum filme cadastrado. Cadastre um filme primeiro.");
             return;
         }
-        
+    
         listarFilmes();
         System.out.print("Escolha o número do filme: ");
         int escolhaFilme = scanner.nextInt() - 1;
         scanner.nextLine(); // Limpa o buffer
-        
+    
         if (escolhaFilme < 0 || escolhaFilme >= filmes.size()) {
             System.out.println("Filme inválido.");
             return;
         }
-        
+    
         Filme filme = filmes.get(escolhaFilme);
-        
+    
         System.out.print("Número da Sala: ");
         int numSala = scanner.nextInt();
         scanner.nextLine(); // Limpa o buffer
-        
-        // Criando uma sala de exemplo 10x10
-        boolean[][] assentos = new boolean[10][10];
-        for (boolean[] fila : assentos) {
-            for (int i = 0; i < fila.length; i++) {
-                fila[i] = true; // todos os assentos inicialmente disponíveis
-            }
-        }
-        Sala sala = new Sala(numSala, assentos);
-        
+    
         System.out.print("Data e Hora da Sessão (AAAA-MM-DD HH:MM): ");
         String dataHoraStr = scanner.nextLine();
-        LocalDateTime horario = LocalDateTime.parse(dataHoraStr);
-        
+        LocalDateTime horario = LocalDateTime.parse(dataHoraStr, formatter);
+    
+        // Verificar se já existe uma sessão na mesma sala e horário
+        for (Sessao sessaoExistente : sessoes) {
+            if (sessaoExistente.getSala().getNumero() == numSala &&
+                sessaoExistente.getHorario().equals(horario)) {
+                System.out.println("Erro: Já existe uma sessão cadastrada nesta sala e horário!");
+                return;
+            }
+        }
+    
         System.out.print("Capacidade Máxima: ");
         int capacidade = scanner.nextInt();
         scanner.nextLine(); // Limpa o buffer
-        
-        Sessao sessao = new Sessao(sala, filme, horario, 0, capacidade);
-        sessoes.add(sessao);
+    
+        // Criando a nova sala
+        boolean[][] assentos = new boolean[10][10];
+        for (boolean[] fila : assentos) {
+            for (int i = 0; i < fila.length; i++) {
+                fila[i] = true; // Todos os assentos inicialmente disponíveis
+            }
+        }
+        Sala sala = new Sala(numSala, assentos);
+    
+        // Criando a nova sessão
+        Sessao novaSessao = new Sessao(sala, filme, horario, 0, capacidade);
+        sessoes.add(novaSessao);
         System.out.println("Sessão criada com sucesso!");
     }
+    
 
     private static void listarSessoes() {
         if (sessoes.isEmpty()) {
@@ -181,6 +195,9 @@ public class Cinema {
         }
         
         Sessao sessao = sessoes.get(escolhaSessao);
+        Sala sala = sessao.getSala();
+        
+        sala.exibirAssentos();
         
         System.out.print("Quantidade de Ingressos: ");
         int qtdIngressos = scanner.nextInt();
@@ -189,55 +206,62 @@ public class Cinema {
         System.out.print("Nome do Cliente: ");
         String nomeCliente = scanner.nextLine();
         
-        // Criando um cliente temporário
         Cliente cliente = new Cliente(nomeCliente, "000.000.000-00", "email@exemplo.com", 25);
         
-        // Escolher tipo de ingresso
-        System.out.println("Tipo de Ingresso:");
-        System.out.println("1. Inteira");
-        System.out.println("2. Meia");
-        System.out.println("3. VIP");
-        System.out.print("Escolha o tipo: ");
-        int tipoIngressoEscolha = scanner.nextInt();
-        scanner.nextLine(); // Limpa o buffer
+        List<String> assentosEscolhidos = new ArrayList<>();
+        List<Ingresso> ingressos = new ArrayList<>();
         
-        TipoIngresso tipoIngresso;
-        switch (tipoIngressoEscolha) {
-            case 2:
-                tipoIngresso = TipoIngresso.MEIA;
-                break;
-            case 3:
-                tipoIngresso = TipoIngresso.VIP;
-                break;
-            default:
-                tipoIngresso = TipoIngresso.INTEIRA;
+        for (int i = 0; i < qtdIngressos; i++) {
+            System.out.printf("Escolha o número do assento para o ingresso %d: ", i + 1);
+            int escolhaAssento = scanner.nextInt();
+            scanner.nextLine(); // Limpa o buffer
+            
+            int fileira = (escolhaAssento - 1) / sala.getAssentos()[0].length;
+            int coluna = (escolhaAssento - 1) % sala.getAssentos()[0].length;
+            
+            if (!sala.isAssentoDisponivel(fileira, coluna)) {
+                System.out.println("Assento já ocupado! Escolha outro.");
+                i--; // Permitir nova tentativa
+                continue;
+            }
+            
+            sala.reservarAssento(fileira, coluna);
+            String numeroCadeira = (fileira + 1) + "-" + (coluna + 1);
+            assentosEscolhidos.add(numeroCadeira);
         }
         
-        // Definir preço base
-        float precoBase = 20.0f; // Exemplo de preço base
+        float precoBase = 20.0f;
+        float precoTotal = 0;
         
-        // Criar ingressos
-        List<Ingresso> ingressos = new ArrayList<>();
-        for (int i = 0; i < qtdIngressos; i++) {
-            // Gerar número de cadeira (exemplo simples)
-            String numeroCadeira = "A" + (i + 1);
+        for (String cadeira : assentosEscolhidos) {
+            System.out.println("Tipo de Ingresso para o assento " + cadeira + ":");
+            System.out.println("1. Inteira");
+            System.out.println("2. Meia");
+            System.out.println("3. VIP");
+            System.out.print("Escolha o tipo: ");
+            int tipoIngressoEscolha = scanner.nextInt();
+            scanner.nextLine(); // Limpa o buffer
             
-            // Criar ingresso com o tipo selecionado
-            Ingresso ingresso = new Ingresso(precoBase, sessao, tipoIngresso, numeroCadeira);
+            TipoIngresso tipoIngresso;
+            switch (tipoIngressoEscolha) {
+                case 2:
+                    tipoIngresso = TipoIngresso.MEIA;
+                    break;
+                case 3:
+                    tipoIngresso = TipoIngresso.VIP;
+                    break;
+                default:
+                    tipoIngresso = TipoIngresso.INTEIRA;
+            }
             
-            // Calcular preço com base no tipo de ingresso
+            Ingresso ingresso = new Ingresso(precoBase, sessao, tipoIngresso, cadeira);
             float precoFinal = ingresso.calcularPreco();
             ingresso.setPreco(precoFinal);
             
             ingressos.add(ingresso);
+            precoTotal += precoFinal;
         }
         
-        // Calcular preço total
-        float precoTotal = ingressos.stream()
-            .map(Ingresso::getPreco)
-            .reduce(0f, Float::sum);
-        
-        // Escolher método de pagamento
         System.out.println("Método de Pagamento:");
         System.out.println("1. Cartão");
         System.out.println("2. Dinheiro");
@@ -270,6 +294,7 @@ public class Cinema {
             System.out.println("Não foi possível realizar a venda. Verifique a disponibilidade.");
         }
     }
+    
 
     private static void consultarDisponibilidade() {
         if (sessoes.isEmpty()) {
