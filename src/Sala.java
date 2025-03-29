@@ -9,30 +9,21 @@ public class Sala {
 
     public void exibirAssentos() {
         System.out.println("Mapa de assentos:");
-        int contador = 1; // Contador para numerar os assentos disponíveis
+        int contador = 1; 
     
         for (int i = 0; i < assentos.length; i++) {
             for (int j = 0; j < assentos[i].length; j++) {
                 if (assentos[i][j]) {
-                    System.out.printf("%2d ", contador); // Exibe número do assento disponível
+                    System.out.printf("%2d ", contador); 
                 } else {
-                    System.out.print(" X "); // Exibe "X" para assentos ocupados
+                    System.out.print(" X "); //  "X" para assentos ocupados
                 }
                 contador++;
             }
-            System.out.println(); // Nova linha após cada fileira
+            System.out.println(); 
         }
     }
 
-    public int getAssentosDisponiveis() {
-        int disp = 0;
-        for (boolean[] fileira : assentos) {
-            for (boolean assento : fileira) {
-                if (assento) disp++;
-            }
-        }
-        return disp;
-    }
 
     public boolean isAssentoDisponivel(int fileira, int coluna) {
         return assentos[fileira][coluna];

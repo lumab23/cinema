@@ -9,14 +9,6 @@ public class ControladorVendas {
         return null;
     }
 
-    public boolean cancelarVenda(Venda venda) {
-        if (venda != null) {
-            venda.getSessao().setIngressosVendidos(venda.getSessao().getIngressosVendidos() - venda.getQtdIngressos());
-            return true;
-        }
-        return false;
-    }
-
     public int consultarDisponibilidade(Sessao sessao) {
         return sessao.getIngressosDisponiveis();
     }

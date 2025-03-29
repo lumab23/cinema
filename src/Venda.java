@@ -5,14 +5,6 @@ public class Venda {
     private Sessao sessao;
     private Pagamento pagamento;
 
-    public Venda(int qtdIngressos, float precoTotal, Cliente cliente, Sessao sessao, Pagamento pagamento) {
-        this.qtdIngressos = qtdIngressos;
-        this.precoTotal = precoTotal;
-        this.cliente = cliente;
-        this.sessao = sessao;
-        this.pagamento = pagamento;
-    }
-
     public Venda(Sessao sessao, Cliente cliente, int qtdIngressos) {
         this.sessao = sessao;
         this.cliente = cliente;
@@ -21,7 +13,7 @@ public class Venda {
     }
 
     public float calcularPreco() {
-        return qtdIngressos * precoTotal;
+        return this.precoTotal;
     }
 
     public void efetuarPagamento() {

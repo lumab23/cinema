@@ -13,8 +13,6 @@ public class Ingresso {
 
     public float calcularPreco() {
         switch (tipo) {
-            case VIP:
-                return preco * 1.5f; // 50% a mais
             case MEIA: 
                 return preco * 0.5f; // 50% de desconto
             default:
