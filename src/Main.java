@@ -142,20 +142,26 @@ public class Main {
         System.out.print("Capacidade Máxima: ");
         int capacidade = scanner.nextInt();
         scanner.nextLine(); // Limpa o buffer
-    
-        // Criando a nova sala
-        boolean[][] assentos = new boolean[10][10];
-        for (boolean[] fila : assentos) {
-            for (int i = 0; i < fila.length; i++) {
-                fila[i] = true; // Todos os assentos inicialmente disponíveis
+
+        // Exemplo: definir 10 colunas e calcular o número de linhas
+        int colunas = 10;
+        int linhas = capacidade / colunas;
+        if (capacidade % colunas != 0) {
+            linhas++;
+        }
+
+        boolean[][] assentos = new boolean[linhas][colunas];
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                assentos[i][j] = true; // Todos os assentos inicialmente disponíveis
             }
         }
+
         Sala sala = new Sala(numSala, assentos);
-    
-        // Criando a nova sessão
         Sessao novaSessao = new Sessao(sala, filme, horario, 0, capacidade);
         sessoes.add(novaSessao);
         System.out.println("Sessão criada com sucesso!");
+
     }
     
 
