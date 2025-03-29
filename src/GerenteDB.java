@@ -8,8 +8,4 @@ public class GerenteDB {
         return true;
     }
 
-    public boolean removerVenda(Venda v) {
-        return true;
-    }
-
 }
