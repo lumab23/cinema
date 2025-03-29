@@ -1,18 +1,49 @@
-## Getting Started
+# Sistema de Gerenciamento de Cinema
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## 📝 Descrição do Projeto
+Sistema de reserva e venda de ingressos para cinemas, com funcionalidades como:
+- Cadastro de filmes e sessões
+- Reserva de assentos
+- Venda de ingressos (inteira/meia)
+- Controle de disponibilidade
+- Processamento de pagamentos (cartão, dinheiro, PIX)
 
-## Folder Structure
+## 🏗️ Arquitetura e Padrões GRASP
 
-The workspace contains two folders by default, where:
+### Diagrama de Classes
+![Diagrama de Classes](diagramaDeClasses.png) 
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+### Padrões GRASP Aplicados
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+#### Padrões Básicos
+1. **Creator (Criador)**  
+   - Aplicado em `ControladorFilmes` que cria instâncias de `Filme`
+   - Aplicado em `ControladorVendas` que cria instâncias de `Venda`
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+2. **Controller (Controlador)**  
+   - `ControladorFilmes` gerencia a lógica de criação de filmes
+   - `ControladorVendas` coordena o processo de venda de ingressos
 
-## Dependency Management
+3. **Polymorphism (Polimorfismo)**  
+   - Implementado na hierarquia de `Pagamento` (Cartão/Dinheiro/PIX)
+   - `Ingresso` calcula preço diferentemente para meia/inteira
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+#### Padrões Avançados
+1. **Pure Fabrication (Fabricação Pura)**  
+   - `GerenteDB` como classe artificial para simular persistência
+   - Centraliza operações de banco de dados que não são responsabilidade natural de outras classes
+
+2. **Indirection (Indireção)**  
+   - `ControladorVendas` atua como mediador entre `Venda`, `Sessao` e `Cliente`
+   - Reduz acoplamento direto entre essas classes
+
+## 🛠️ Tecnologias Utilizadas
+- Java 
+- Diagrama: draw.io
+
+## 👥 Grupo
+
+- <img src="https://github.com/lumab23.png" alt="Luma" width="30" height="30" style="border-radius: 50%;"> [Luma](https://github.com/lumab23)
+- <img src="https://github.com/Amandafonsecarodrigues.png" alt="Amanda" width="30" height="30" style="border-radius: 50%;"> [Amanda](https://github.com/Amandafonsecarodrigues)
+- <img src="https://github.com/joaoamorimBM.png" alt="Kaylany" width="30" height="30" style="border-radius: 50%;"> [João Pedro](https://github.com/joaoamorimBM)
+</div>
